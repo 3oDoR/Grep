@@ -15,7 +15,7 @@ public class GrepLauncher {
     private boolean invert;
 
     @Option(name = "-i", usage = "Ignore word case")
-    private boolean ignore;
+    private boolean ignoreRegister;
 
     @Argument(required = true, usage = "Word or phrase to search for")
     private String word;
@@ -23,9 +23,7 @@ public class GrepLauncher {
     @Argument(required = true, index = 1, usage = "The name of the file in which you are looking for")
     private String inputName;
 
-    public GrepLauncher() {
-        this.grep = new Grep();
-    }
+
 
     public static void main(String[] args) throws IOException {
         new GrepLauncher().doGrep(args);
@@ -44,7 +42,8 @@ public class GrepLauncher {
             return;
         }
 
-        for (String line: grep.grep(regex, ignore, invert, word, inputName)) {
+        Grep grep = new Grep(regex,ignoreRegister,invert,word,inputName);
+        for (String line: grep.grep()) {
             System.out.println(line);
         }
 

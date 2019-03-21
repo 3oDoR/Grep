@@ -1,48 +1,34 @@
 import org.junit.jupiter.api.Test;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+
+
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class GrepTest {
-    private String abPath = new File("").getPath();
+class GrepTest {
+
     @Test
-    public void noFlags(){
-        Grep grep = new Grep();
-        try {
+    void noFlags(){
+        Grep grep = new Grep(false,false,false,"богатый","input\\input1.txt");
+        List<String> list = new ArrayList<>();
+        list.add("Разнообразный и богатый опыт постоянный количественный рост и сфера нашей активности играет важную роль в формировании дальнейших направлений развитая системы массового участия.");
+        assertEquals(list, grep.grep());
+    }
+
+
+    @Test
+    void FlagI(){
+        Grep grep = new Grep(false,true,false,"БОГАТЫЙ","input\\input1.txt");
             List<String> list = new ArrayList<>();
-            list.add("Разнообразный и богатый опыт постоянный количественный" +
-                    " рост и сфера нашей активности играет важную роль в формировании " +
-                    "дальнейших направлений развитая системы массового участия.");
-            assertEquals(list, grep.findLines(new BufferedReader(new FileReader(new File(abPath + "input\\input1.txt"))),false,false,false,"богатый"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            list.add("Разнообразный и богатый опыт постоянный количественный рост и сфера нашей активности играет важную роль в формировании дальнейших направлений развитая системы массового участия.");
+            assertEquals(list, grep.grep());
     }
 
     @Test
-    public void FlagI(){
-        Grep grep = new Grep();
-        try {
-            List<String> list = new ArrayList<>();
-            list.add("Разнообразный и богатый опыт постоянный количественный рост" +
-                    " и сфера нашей активности играет важную роль в формировании" +
-                    " дальнейших направлений развитая системы массового участия.");
-            assertEquals(list, grep.findLines(new BufferedReader(new FileReader(new File(abPath + "input\\input1.txt"))),true,false,false,"БОГАТЫЙ"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Test
-    public void FlagV(){
-        Grep grep = new Grep();
-        try {
+    void FlagV(){
+        Grep grep = new Grep(false,false,true,"богатый","input\\input1.txt");
             List<String> list = new ArrayList<>();
             list.add("Значимость этих проблем настолько очевидна, что" +
                     " реализация намеченного плана развития обеспечивает" +
@@ -50,28 +36,22 @@ public class GrepTest {
                     " дальнейших направлений развития проекта.");
             list.add("Повседневная практика показывает, что консультация с профессионалами");
             list.add("123452");
-            assertEquals(list, grep.findLines(new BufferedReader(new FileReader(new File(abPath + "input\\input1.txt"))),false,false,true,"богатый"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            assertEquals(list, grep.grep());
+
     }
 
     @Test
-    public void FlagR(){
-        Grep grep = new Grep();
-        try {
+    void FlagR(){
+        Grep grep = new Grep(true,false,false,"\\d","input\\input1.txt");
             List<String> list = new ArrayList<>();
             list.add("123452");
-            assertEquals(list, grep.findLines(new BufferedReader(new FileReader(new File(abPath + "input\\input1.txt"))),false,true,false,"\\d"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            assertEquals(list, grep.grep());
+
     }
 
     @Test
-    public void FlagVI(){
-        Grep grep = new Grep();
-        try {
+    void FlagVI(){
+        Grep grep = new Grep(false,true,true,"БОГАТЫЙ","input\\input1.txt");
             List<String> list = new ArrayList<>();
             list.add("Значимость этих проблем настолько очевидна," +
                     " что реализация намеченного плана развития" +
@@ -80,10 +60,8 @@ public class GrepTest {
                     " развития проекта.");
             list.add("Повседневная практика показывает, что консультация с профессионалами");
             list.add("123452");
-            assertEquals(list, grep.findLines(new BufferedReader(new FileReader(new File(abPath + "input\\input1.txt"))),true,false,true,"БОГАТЫЙ"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            assertEquals(list, grep.grep());
+
 
     }
 
